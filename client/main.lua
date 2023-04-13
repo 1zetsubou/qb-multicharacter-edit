@@ -24,12 +24,13 @@ local function skyCam(bool)
         SetTimecycleModifier('scanline_cam_cheap') --https://wiki.rage.mp/index.php?title=Timecycle_Modifiers
         SetTimecycleModifierStrength(1.0)
         FreezeEntityPosition(PlayerPedId(), false)
-        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", Config.CamCoords.x, Config.CamCoords.y, Config.CamCoords.z, Config.CamRoll, 0.0, Config.CamCoords.w, Config.POV, true, 0)
+        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", Config.CamCoords.x, Config.CamCoords.y, Config.CamCoords.z, Config.CamRoll, 0.0, Config.CamCoords.w, Config.CameraFoV, true, 0)
         RenderScriptCams(true, false, 1, true, true)
         SetCamUseShallowDofMode(cam, true)
-        SetCamNearDof(cam, Config.MinDOF)
-        SetCamFarDof(cam, Config.MaxDOF)
-        SetCamDofStrength(cam, Config.BlurStrengt)
+        SetCamNearDof(cam, Config.CameraNearDof)
+        SetCamFarDof(cam, Config.CameraFarDof)
+        SetCamDofStrength(cam, Config.CameraDofStrength)
+        ShakeCam(cam, Config.ShakeType, Config.CameraShake) -- Shakes the camera
         while DoesCamExist(cam) do
             -- You have to run this function every frame (while you want DOF for your camera) otherwise it wont work
             SetUseHiDof()
