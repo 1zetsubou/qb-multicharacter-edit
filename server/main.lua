@@ -186,7 +186,7 @@ QBCore.Functions.CreateCallback("qb-multicharacter:server:setupCharacters", func
 end)
 
 QBCore.Functions.CreateCallback("qb-multicharacter:server:getSkin", function(_, cb, cid)
-    if Config.FivemAppearance then
+    if Config.UseFivemAppearance then
         local result = MySQL.query.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', {cid, 1})
         if result[1] ~= nil then
             cb(json.decode(result[1].skin))
