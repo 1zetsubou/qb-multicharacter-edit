@@ -15,10 +15,11 @@ Config.PlayersNumberOfCharacters = { -- Define maximum amount of player characte
 Config.FivemAppearance = true -- True = iLLeniumStudios's fivem apperance/ False = basic qb-clothing 
 
 --Cam Config
-Config.CameraFoV = 25.0 -- Creates a variable called CameraFoV and sets it to the field of view of the camera
-Config.CameraNearDof = 0.3 -- Creates a variable called CameraNearDof and sets it to the near dof of the camera
-Config.CameraFarDof = 10.0 -- Creates a variable called CameraFarDof and sets it to the far dof of the camera
-Config.CameraDofStrength = -10.0 -- Creates a variable called CameraDofStrength and sets it to the dof strength of the camera
+Config.Blur = false
+Config.CameraFoV = 28.0 -- Creates a variable called CameraFoV and sets it to the field of view of the camera
+Config.CameraNearDof = 0.2 -- Creates a variable called CameraNearDof and sets it to the near dof of the camera
+Config.CameraFarDof = 2.0 -- Creates a variable called CameraFarDof and sets it to the far dof of the camera
+Config.CameraDofStrength = 1000.0 -- Creates a variable called CameraDofStrength and sets it to the dof strength of the camera
 Config.ShakeType = "HAND_SHAKE" -- Creates a variable called ShakeType and sets it to the shake type of the camera
 Config.CameraShake = 0.2 -- Creates a variable called CameraShake and sets it to the shake of the camera
 
