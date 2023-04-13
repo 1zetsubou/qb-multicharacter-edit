@@ -16,9 +16,9 @@
     min-height: 50%;
     height: fit-content;
     max-height: 70%;
-    left: 14%;
+    left: 6%;
     top: 20%;
-    background-color: #161923f2;
+    background-color: #0e1839b5;
     border-radius: 5px;
     box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
     padding: 30px;
@@ -63,12 +63,12 @@
 .characters::-webkit-scrollbar-track {
     border-radius:20px;
     border:1px solid #000000;
-    background:#000000;
+    background:#d20000;
 }
 .characters::-webkit-scrollbar-thumb {
     border-radius:20px;
     border:1px solid #000000;
-    background-color:#a90d2ca6;
+    background-color:#080353a6;
 }
 .character {
     position: relative;
@@ -79,13 +79,14 @@
     border-bottom: 4px solid #74aa3200;
     transition: .1s linear;
     border-radius: .3vh;
+    
     cursor: pointer;
     display: flex;
     align-items: center;
 }
 
 .character:hover {
-    background-color: #a90d2ca6;
+    background-color: #0e067f99;
     box-shadow: rgb(37 17 17 / 25%) 0px 30px 60px -12px inset, rgb(154 54 54 / 30%) 0px 18px 36px -18
 }
 
@@ -107,7 +108,7 @@
 }
 
 .char-selected {
-    background-color: #a90d2ca6;
+    background-color: #080353a6;
     box-shadow: rgb(37 17 20 / 25%) 0px 30px 60px -12px inset, rgb(154 54 54 / 30%) 0px 18px 36px -18;
     transition: 250ms;
 }
@@ -118,7 +119,7 @@
     font-size: 1.5vh;
     font-family: 'Poppins', sans-serif;
     flex: 0 0 60%;
-    padding-left: 10px;
+    padding-left: 17px;
 }
 
 .character-btns {
@@ -143,7 +144,7 @@
 }
 
 #delete {
-    background-color: rgb(144 41 62);
+    background-color: rgb(137, 144, 41);
     border-radius: .3vh;
     transition: all 0.2s ease;
 }
@@ -160,10 +161,10 @@
     height: fit-content;
 
     position: absolute;
-    right: 14%;
-    top: 20%;
+    right: 7%;
+    top: 19%;
     padding: 30px;
-    background-color: #161923f2;
+    background-color: #0e1839b5;
     border-radius: 5px;
     box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
     overflow: visible !important;
@@ -298,7 +299,7 @@
     left: 32px;
     padding: 30px;
     font-family: 'Poppins', sans-serif;
-    background-color: #161923f2;
+    background-color: #0e1839b5;
     border-radius: 5px;
     box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
     transition: 400ms;
@@ -315,7 +316,7 @@
 
 .material-symbols-outlined {
     color: #ededed;
-    background-color: #DC143C;
+    background-color: #0c27d4e5;
     font-weight: 900;
     border-radius: .3vh;
     padding: .3vh;
@@ -530,19 +531,19 @@ input[type="date"]::-webkit-clear-button {
 }
 
 .v-date-picker-table .v-btn--active {
-    background: #DC143C;
+    background: #0400f9;
 }
 
 .theme--light.v-picker__body {
-    background: #161923f2!important;
+    background: #06024b!important;
 }
 
 .v-picker__actions.v-card__actions {
-    background: rgb(24 29 41 / 95%)!important
+    background: rgba(12, 12, 86, 0.947)!important
 }
 
 .v-picker__title.primary {
-    background: #DC143C!important;
+    background: #202786!important;
 }
 
 .theme--light.v-date-picker-header .v-date-picker-header__value:not(.v-date-picker-header__value--disabled) button:not(:hover):not(:focus) {
@@ -559,7 +560,7 @@ input[type="date"]::-webkit-clear-button {
 }
 
 button.v-btn.v-date-picker-table__current.v-btn--rounded.v-btn--outlined.theme--light.accent--text {
-    border-color: #DC143C;
+    border-color: #03c0f4;
 }
 
 .v-date-picker-years {
