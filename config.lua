@@ -12,7 +12,7 @@ Config.PlayersNumberOfCharacters = { -- Define maximum amount of player characte
     { license = "license:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", numberOfChars = 2 },
 }
 
-Config.FivemAppearance = true -- True = iLLeniumStudios's fivem apperance/ False = basic qb-clothing 
+Config.UseFivemAppearance = false -- True = iLLeniumStudios's fivem apperance/ False = basic qb-clothing 
 
 --Cam Config
 Config.Blur = false
