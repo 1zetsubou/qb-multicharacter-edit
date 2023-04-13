@@ -1,7 +1,7 @@
 local cam = nil
 local charPed = nil
-local loadScreenCheckState = false
 local QBCore = exports['qb-core']:GetCoreObject()
+local PlayAnim = Config.RandomAnims[math.random(#Config.RandomAnims)] 
 
 -- Main Thread
 
@@ -21,12 +21,22 @@ local function skyCam(bool)
     TriggerEvent('qb-weathersync:client:DisableSync')
     if bool then
         DoScreenFadeIn(1000)
-        SetTimecycleModifier('hud_def_blur')
+        SetTimecycleModifier('scanline_cam_cheap') --https://wiki.rage.mp/index.php?title=Timecycle_Modifiers
         SetTimecycleModifierStrength(1.0)
         FreezeEntityPosition(PlayerPedId(), false)
-        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", Config.CamCoords.x, Config.CamCoords.y, Config.CamCoords.z, 0.0 ,0.0, Config.CamCoords.w, 60.00, false, 0)
-        SetCamActive(cam, true)
+        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", Config.CamCoords.x, Config.CamCoords.y, Config.CamCoords.z, Config.CamRoll, 0.0, Config.CamCoords.w, Config.POV, true, 0)
         RenderScriptCams(true, false, 1, true, true)
+        SetCamUseShallowDofMode(cam, true)
+        SetCamNearDof(cam, Config.MinDOF)
+        SetCamFarDof(cam, Config.MaxDOF)
+        SetCamDofStrength(cam, Config.BlurStrengt)
+        while DoesCamExist(cam) do
+            -- You have to run this function every frame (while you want DOF for your camera) otherwise it wont work
+            SetUseHiDof()
+        
+            Citizen.Wait(0)
+        end
+
     else
         SetTimecycleModifier('default')
         SetCamActive(cam, false)
@@ -54,10 +64,6 @@ local function openCharMenu(bool)
             translations = translations
         })
         skyCam(bool)
-        if not loadScreenCheckState then
-            ShutdownLoadingScreenNui()
-            loadScreenCheckState = true
-        end
     end)
 end
 
@@ -133,9 +139,9 @@ RegisterNUICallback('cDataPed', function(nData, cb)
     SetEntityAsMissionEntity(charPed, true, true)
     DeleteEntity(charPed)
     if cData ~= nil then
-        QBCore.Functions.TriggerCallback('qb-multicharacter:server:getSkin', function(model, data)
-            model = model ~= nil and tonumber(model) or false
-            if model ~= nil then
+        QBCore.Functions.TriggerCallback('qb-multicharacter:server:getSkin', function(skinData)
+            if skinData then
+                local model = joaat(skinData.model)
                 CreateThread(function()
                     RequestModel(model)
                     while not HasModelLoaded(model) do
@@ -143,12 +149,18 @@ RegisterNUICallback('cDataPed', function(nData, cb)
                     end
                     charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
                     SetPedComponentVariation(charPed, 0, 0, 0, 2)
-                    FreezeEntityPosition(charPed, false)
+                    FreezeEntityPosition(charPed, true)
                     SetEntityInvincible(charPed, true)
-                    PlaceObjectOnGroundProperly(charPed)
+                    --PlaceObjectOnGroundProperly(charPed)
+                    SetPedCanPlayAmbientAnims(charPed, true)
+                    TaskStartScenarioInPlace(charPed, PlayAnim, 0, true)
                     SetBlockingOfNonTemporaryEvents(charPed, true)
-                    data = json.decode(data)
-                    TriggerEvent('qb-clothing:client:loadPlayerClothing', data, charPed)
+                    if Config.FivemAppearance then
+                        exports['illenium-appearance']:setPedAppearance(charPed, skinData)
+                    else
+                        data = json.decode(data)
+                        TriggerEvent('qb-clothing:client:loadPlayerClothing', data, charPed)
+                    end
                 end)
             else
                 CreateThread(function()
@@ -163,9 +175,9 @@ RegisterNUICallback('cDataPed', function(nData, cb)
                     end
                     charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
                     SetPedComponentVariation(charPed, 0, 0, 0, 2)
-                    FreezeEntityPosition(charPed, false)
+                    FreezeEntityPosition(charPed, true)
                     SetEntityInvincible(charPed, true)
-                    PlaceObjectOnGroundProperly(charPed)
+                    --PlaceObjectOnGroundProperly(charPed)
                     SetBlockingOfNonTemporaryEvents(charPed, true)
                 end)
             end
@@ -226,4 +238,28 @@ RegisterNUICallback('removeCharacter', function(data, cb)
     DeletePed(charPed)
     TriggerEvent('qb-multicharacter:client:chooseChar')
     cb("ok")
+end)
+
+RegisterNUICallback('spawnLastLocation', function(data, cb)
+    DoScreenFadeOut(10)
+    local cData = data.cData
+    SetEntityAsMissionEntity(charPed, true, true)
+    DeleteEntity(charPed)
+    TriggerServerEvent('qb-multicharacter:server:spawnLastLocation', cData)
+
+    SetNuiFocus(false, false)
+    skyCam(false)
+
+    cb("ok")
+end)
+
+RegisterNetEvent('qb-multicharacter:client:spawnLastLocation', function(coords)
+    local ped = PlayerPedId()
+    SetEntityCoords(ped, coords.x, coords.y, coords.z)
+    SetEntityHeading(ped, coords.w)
+    FreezeEntityPosition(ped, false)
+    SetEntityVisible(ped, true)
+    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+    TriggerEvent('QBCore:Client:OnPlayerLoaded')
+    DoScreenFadeIn(250)
 end)
