@@ -186,13 +186,23 @@ QBCore.Functions.CreateCallback("qb-multicharacter:server:setupCharacters", func
 end)
 
 QBCore.Functions.CreateCallback("qb-multicharacter:server:getSkin", function(_, cb, cid)
-    local result = MySQL.query.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', {cid, 1})
-    if result[1] ~= nil then
-        cb(result[1].model, result[1].skin)
+    if Config.FivemAppearance then
+        local result = MySQL.query.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', {cid, 1})
+        if result[1] ~= nil then
+            cb(json.decode(result[1].skin))
+        else
+            cb(nil)
+        end
     else
-        cb(nil)
+        local result = MySQL.query.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', {cid, 1})
+        if result[1] ~= nil then
+            cb(result[1].model, result[1].skin)
+        else
+            cb(nil)
+        end
     end
 end)
+
 
 QBCore.Commands.Add("deletechar", Lang:t("commands.deletechar_description"), {{name = Lang:t("commands.citizenid"), help = Lang:t("commands.citizenid_help")}}, false, function(source,args)
     if args and args[1] then
@@ -202,3 +212,17 @@ QBCore.Commands.Add("deletechar", Lang:t("commands.deletechar_description"), {{n
         TriggerClientEvent("QBCore:Notify", source, Lang:t("notifications.forgot_citizenid"), "error")
     end
 end, "god")
+
+RegisterNetEvent('qb-multicharacter:server:spawnLastLocation', function(cData)
+    local src = source
+    if QBCore.Player.Login(src, cData.citizenid) then
+        repeat
+            Wait(10)
+        until hasDonePreloading[src]
+       -- print('^2[qb-core]^7 '..GetPlayerName(src)..' (Citizen ID: '..cData.citizenid..') has succesfully loaded!')
+        QBCore.Commands.Refresh(src)
+        loadHouseData(src)
+        local coords = json.decode(cData.position)
+        TriggerClientEvent('qb-multicharacter:client:spawnLastLocation', src, coords)
+    end
+end)
