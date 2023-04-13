@@ -30,12 +30,13 @@ Added support for setting default number of characters per player per Rockstar l
 - [qb-weathersync](https://github.com/qbcore-framework/qb-weathersync) - For adjusting the weather while player is creating a character.
 
 ## Screenshots
-![Character Selection](https://cdn.discordapp.com/attachments/934470871333105674/1014215694394589294/unknown.png)
-![Character Registration](https://cdn.discordapp.com/attachments/934470871333105674/1014215687700488304/unknown.png)
+![Character Selection]([https://cdn.discordapp.com/attachments/934470871333105674/1014215694394589294/unknown.png](https://cdn.discordapp.com/attachments/835959627858182154/1095816494828499045/20230412230240_1.jpg))
+![Config.lua]([https://cdn.discordapp.com/attachments/934470871333105674/1014215687700488304/unknown.png](https://cdn.discordapp.com/attachments/835959627858182154/1095816665310171156/image.png))
 
 ## Features
-- Ability to create up to 5 characters and delete any character.
-- Ability to see character information during selection.
+- Config optoin for iLLeniumStudios's fivem apperance (https://github.com/iLLeniumStudios/illenium-appearance),
+- Fully configrable camera,
+- Randomised animations for ped,
 
 ## Installation
 ### Manual
